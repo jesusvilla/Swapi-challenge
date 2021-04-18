@@ -1,0 +1,104 @@
+service: swapi-challenge
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  region: us-east-1
+  environment:
+    # DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    DYNAMODB_TABLE: "Specie"
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
+resources:
+  Resources: ${file(offline/migrations/specie.yml)}
+
+functions:
+  # start:
+    # handler: lambda.handler
+    # events:
+      # - http: ANY /
+      # - http: 'ANY {proxy+}'
+  getItem:
+    handler: lib/handlers/specie/getItem.handler
+    events:
+      - http:
+          method: get
+          path: species/{id}
+          documentation:
+            summary: Obtener especie
+            description: Obtiene la información de una especie a partir de su ID
+            pathParams:
+              - name: id
+                description: El id de la especie
+                schema:
+                  type: string
+                  pattern: "^[-a-z0-9]+$"
+            methodResponse:
+              - statusCode: 200
+                responseHeaders:
+                  - name: "Content-Type"
+                    description: "Content Type header"
+                    schema:
+                      type: "string"
+  addItemDB:
+    handler: lib/handlers/specie/addItemDB.handler
+    events:
+      - http:
+          method: post
+          path: species
+  getItemDB:
+    handler: lib/handlers/specie/getItemDB.handler
+    events:
+      - http:
+          method: get
+          path: species/dynamodb/{id}
+  
+
+custom:
+  serverless-offline:
+    host: '0.0.0.0'
+    # httpPort: 3000
+  dynamodb:
+    stages:
+      - local
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+  documentation:
+    # this is general info about the API
+    api:
+      info:
+        version: '1'
+        title: SWAPI Challenge
+        description: SWAPI challenge for INDRA
+        termsOfService: https://www.google.com
+        contact:
+          name: Jesús Rafael Villanueva Ramos
+          url: https://github.com/jesusvilla
+          email: jrvr1993@gmail.com
+        license:
+          name: MIT
+          url: https://github.com/git/git-scm.com/blob/main/MIT-LICENSE.txt
+    
+
+plugins:
+  - serverless-webpack
+  - serverless-dynamodb-local
+  - serverless-offline
+  - serverless-openapi-documentation
+  - serverless-jest-plugin

@@ -1,0 +1,37 @@
+{
+  "name": "swapi-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.15",
+    "@babel/preset-env": "^7.13.15",
+    "aws-sdk": "^2.888.0",
+    "babel-jest": "^26.6.3",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^7.24.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "serverless-dynamodb-local": "^0.2.39",
+    "serverless-jest-plugin": "^0.3.0",
+    "serverless-offline": "^6.9.0",
+    "serverless-openapi-documentation": "^0.4.0",
+    "serverless-webpack": "^5.4.1",
+    "webpack": "^5.33.2"
+  },
+  "scripts": {
+    "dev": "serverless offline start --stage local",
+    "openapi": "serverless openapi generate",
+    "test": "DYNAMODB_TABLE=Specie IS_OFFLINE=1 jest"
+  },
+  "author": "jvillanueva@gmail.com",
+  "license": "MIT"
+}
