@@ -62,9 +62,11 @@ serverless deploy
 ```
 
 ## Endpoints:
-  GET - https://6emstx5io3.execute-api.us-east-1.amazonaws.com/dev/species/{id}
-  POST - https://6emstx5io3.execute-api.us-east-1.amazonaws.com/dev/species
-  GET - https://6emstx5io3.execute-api.us-east-1.amazonaws.com/dev/species/dynamodb/{id}
+| Plugin | README |
+| ------ | ------ |
+| GET | https://6emstx5io3.execute-api.us-east-1.amazonaws.com/dev/species/{id} |
+| POST | https://6emstx5io3.execute-api.us-east-1.amazonaws.com/dev/species |
+| GET | https://6emstx5io3.execute-api.us-east-1.amazonaws.com/dev/species/dynamodb/{id} |
 
 
 ## License
